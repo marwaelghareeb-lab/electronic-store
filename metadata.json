@@ -1,0 +1,6 @@
+{
+  "name": "Volt - Electronics Store",
+  "description": "High-performance e-commerce platform for next-generation electronics, audio gear, computing, and smart devices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
