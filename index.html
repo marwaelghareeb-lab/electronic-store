@@ -9,6 +9,40 @@
     <meta property="og:description" content="High-performance e-commerce platform for next-generation electronics, audio gear, computing, and smart devices." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function() {
+        // Prevent Vite HMR WebSocket from triggering 'WebSocket closed without opened' errors in cloud proxy
+        try {
+          const NativeWebSocket = window.WebSocket;
+          if (NativeWebSocket) {
+            window.WebSocket = function(url, protocols) {
+              if (typeof url === 'string' && (url.includes('ais-dev') || url.includes('/@vite') || url.includes(':3000'))) {
+                return {
+                  readyState: 3, // CLOSED
+                  send: function() {},
+                  close: function() {},
+                  addEventListener: function() {},
+                  removeEventListener: function() {},
+                  dispatchEvent: function() { return false; },
+                  onopen: null,
+                  onclose: null,
+                  onerror: null,
+                  onmessage: null
+                };
+              }
+              return new NativeWebSocket(url, protocols);
+            };
+            window.WebSocket.prototype = NativeWebSocket.prototype;
+            window.WebSocket.CONNECTING = 0;
+            window.WebSocket.OPEN = 1;
+            window.WebSocket.CLOSING = 2;
+            window.WebSocket.CLOSED = 3;
+          }
+        } catch (e) {
+          // ignore
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
